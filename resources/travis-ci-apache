@@ -1,7 +1,7 @@
 <VirtualHost *:80>
-  DocumentRoot /var/www
+  DocumentRoot PATH
 
-  <Directory "/var/www">
+  <Directory "PATH">
     Options FollowSymLinks MultiViews ExecCGI
     AllowOverride All
     Order deny,allow

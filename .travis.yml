@@ -67,7 +67,7 @@ before_script:
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   # configure apache virtual hosts
   - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/default
-  - sudo sed -i -e "s,/var/www,$(pwd)/build,g" /etc/apache2/sites-available/default
+  - sudo sed -i -e "s,PATH,$(pwd)/build,g" /etc/apache2/sites-available/default
   - cat /etc/apache2/sites-available/default
   - sudo service apache2 reload
   - sudo service apache2 restart
