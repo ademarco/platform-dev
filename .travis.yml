@@ -13,7 +13,7 @@ addons:
       - mysql-server-5.6
       - mysql-client-core-5.6
       - mysql-client-5.6
-      - apache2
+#      - apache2
       - libapache2-mod-fastcgi
 
 git:
@@ -22,12 +22,12 @@ git:
 php:
   - '5.6'
 
-env:
-  - TEST=behat.0.yml
-  - TEST=behat.1.yml
-  - TEST=behat.2.yml
-  - TEST=behat.3.yml
-  - TEST=behat.4.yml
+#env:
+#  - TEST=behat.0.yml
+#  - TEST=behat.1.yml
+#  - TEST=behat.2.yml
+#  - TEST=behat.3.yml
+#  - TEST=behat.4.yml
 
 matrix:
   fast_finish: true
@@ -41,16 +41,18 @@ mysql:
   encoding: utf8
 
 before_install:
-  - phpenv config-rm xdebug.ini
-  - phpenv rehash
-  - phantomjs --version
+  - ls /etc/apache2/sites/available
+  - cat /etc/apache2/sites/available/*
+#  - phpenv config-rm xdebug.ini
+#  - phpenv rehash
+#  - phantomjs --version
 
 install:
   # Run composer
-  - composer self-update
-  - composer install
-  # Setup Phing
-  - cp resources/build.properties.travis build.properties.local
+#  - composer self-update
+#  - composer install
+#  # Setup Phing
+#  - cp resources/build.properties.travis build.properties.local
   # Build platform
   - touch index.php
   - echo "echo 'Hello';" >> index.php
