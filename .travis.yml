@@ -66,6 +66,7 @@ before_script:
   - curl http://nexteuropa
   - sudo a2enmod rewrite actions alias php5
   # Configure apache virtual hosts
+  - cat /etc/apache2/sites-available/000-default.conf
   - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/000-default.conf
   - sudo sed -i -e "s,PATH,$(pwd),g" /etc/apache2/sites-available/000-default.conf
   - cat /etc/apache2/sites-available/000-default.conf
