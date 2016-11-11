@@ -15,6 +15,8 @@ addons:
       - mysql-server-5.6
       - mysql-client-core-5.6
       - mysql-client-5.6
+      - apache2
+      - libapache2-mod-fastcgi
 
 git:
   depth: 1
@@ -49,12 +51,6 @@ before_install:
   - export DISPLAY=:99.0
   - if [ $(phantomjs --version) != '2.1.1' ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs && wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 && tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi
   - phantomjs --version
-  - composer self-update
-  - composer install
-  - cp resources/build.properties.travis build.properties.local
-  - mysql -u root -e 'create database nexteuropa;'
-  - sudo apt-get update
-  - sudo apt-get install apache2 libapache2-mod-fastcgi
   # enable php-fpm
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo a2enmod rewrite actions fastcgi alias
@@ -63,18 +59,24 @@ before_install:
   # configure apache virtual hosts
   - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
-
-install:
-  - ./bin/phing build-platform-dev
-  - ./bin/phing install-platform
-  - ./bin/phing setup-php-codesniffer
-  - ./bin/phing setup-behat
-
-before_script:
+  # Create DB
+  - mysql -u root -e 'create database nexteuropa;'
   # Run Apache
   - sudo service apache2 restart
   # Run PhamtomJS
   - phantomjs --webdriver=4444 > /dev/null &
+
+install:
+  # Run composer
+  - composer self-update
+  - composer install
+  # Setup Phing
+  - cp resources/build.properties.travis build.properties.local
+  # Build platform
+  - ./bin/phing build-platform-dev
+  - ./bin/phing install-platform
+  - ./bin/phing setup-php-codesniffer
+  - ./bin/phing setup-behat
 
 script:
   - cd build/tests
