@@ -72,8 +72,8 @@ before_script:
   - sudo a2enmod rewrite actions alias php5
   # Configure apache virtual hosts
   - cat /etc/apache2/sites-available/000-default.conf
-#  - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/000-default.conf
-  - sudo sed -i -e "s,/var/www/html,$(pwd)/build,g" /etc/apache2/sites-available/000-default.conf
+  - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/000-default.conf
+  - sudo sed -i -e "s,PATH,$(pwd),g" /etc/apache2/sites-available/000-default.conf
   - cat /etc/apache2/sites-available/000-default.conf
   # Run Apache2
   - sudo service apache2 restart
@@ -85,6 +85,10 @@ script:
   - curl http://nexteuropa/README.txt
 #  - cd build/tests
 #  - ./behat -c ${TEST}
+
+after_failure:
+  - cat error.log
+  - cat access.log
 
 notifications:
   email: true
