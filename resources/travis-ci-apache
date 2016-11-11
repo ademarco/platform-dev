@@ -1,5 +1,5 @@
 <VirtualHost *:80>
-  ServerName localhost
+  ServerName platform.local
   DocumentRoot %TRAVIS_BUILD_DIR%/build
 
   <Directory %TRAVIS_BUILD_DIR%/build>

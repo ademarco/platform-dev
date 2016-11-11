@@ -59,7 +59,9 @@ install:
   # Setup Phing
   - cp resources/build.properties.travis build.properties.local
   # Build platform
-  - ./bin/phing build-platform-dev
+  - mkdir build
+  - touch build/README.txt
+#  - ./bin/phing build-platform-dev
 #  - ./bin/phing install-platform
 #  - ./bin/phing setup-php-codesniffer
 #  - ./bin/phing setup-behat
@@ -68,7 +70,7 @@ before_script:
   # enable php-fpm
   - sudo a2enmod rewrite actions alias
   # Configure apache virtual hosts
-  - cat /etc/apache2/sites-available/default
+  - echo 127.0.0.1 platform.local >> /etc/hosts
   - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
   # Run Apache
@@ -81,13 +83,8 @@ before_script:
 script:
   - ls -al /home/travis/build/ademarco/platform-dev/build
   - sudo cat /etc/apache2/sites-available/default
-  - curl http://127.0.0.1
-  - curl http://127.0.1.1
-  - curl http://localhost
-  - curl http://127.0.0.1/README.txt
-  - curl http://127.0.1.1/README.txt
+  - curl http://platform.local/README.txt
   - curl http://localhost/README.txt
-  - curl http://localhost/user
 #  - cd build/tests
 #  - ./behat -c ${TEST}
 
