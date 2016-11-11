@@ -55,6 +55,8 @@ install:
   - mkdir build
   - touch build/index.php
   - echo "echo 'Hello';" >> build/index.php
+  - touch build/README.txt
+  - echo "echo 'Hello';" >> build/README.txt
 #  - ./bin/phing build-platform-dev
 #  - ./bin/phing install-platform
 #  - ./bin/phing setup-php-codesniffer
@@ -78,6 +80,7 @@ before_script:
 
 script:
   - curl http://nexteuropa
+  - curl http://nexteuropa/README.txt
 #  - cd build/tests
 #  - ./behat -c ${TEST}
 
