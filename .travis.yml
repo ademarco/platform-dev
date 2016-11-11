@@ -62,15 +62,16 @@ install:
 
 before_script:
   - curl http://nexteuropa
-  # enable php-fpm
+  # Enable PHP-FPM
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo a2enmod rewrite actions fastcgi alias
   - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
-  # configure apache virtual hosts
+  # Configure apache virtual hosts
   - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/000-default.conf
   - sudo sed -i -e "s,PATH,$(pwd),g" /etc/apache2/sites-available/000-default.conf
   - cat /etc/apache2/sites-available/000-default.conf
+  # Run Apache2
   - sudo service apache2 restart
   # Run PhamtomJS
   - phantomjs --webdriver=4444 > /dev/null &
