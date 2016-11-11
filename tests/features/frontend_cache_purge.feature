@@ -185,7 +185,7 @@ Feature:
       | Path          |
       | /all-articles |
 
-  @non-moderated-content
+  @non-moderated-content @wip @stuck
   Scenario: Edit an existing draft of an editorial team.
     Given I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"

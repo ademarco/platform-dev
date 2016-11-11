@@ -34,7 +34,7 @@ Feature: TMGMT Poetry features
     And the translation request has the codeDemandeur "ABCD"
     And the translation request has the sequence "NEXT_EUROPA_COUNTER"
 
-  @javascript
+  @javascript @wip @stuck
   Scenario: Create a request translation for Portuguese
     Given I am viewing a multilingual "page" content:
       | language | title                                           |
