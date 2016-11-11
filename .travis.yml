@@ -46,25 +46,24 @@ before_install:
 #  - phantomjs --version
 
 install:
-  # Run composer
+#  # Run composer
 #  - composer self-update
 #  - composer install
 #  # Setup Phing
 #  - cp resources/build.properties.travis build.properties.local
-  # Build platform
-  - mkdir build
-  - sudo chmod -R +x build
-  - touch build/index.php
-  - echo "echo 'Hello';" >> build/index.php
-  - touch build/README.txt
-  - echo "echo 'Hello';" >> build/README.txt
+#  # Build platform
 #  - ./bin/phing build-platform-dev
 #  - ./bin/phing install-platform
 #  - ./bin/phing setup-php-codesniffer
 #  - ./bin/phing setup-behat
+  - mkdir build
+  - sudo chmod -R 777 build
+  - touch build/index.php
+  - echo "echo 'Hello';" >> build/index.php
+  - touch build/README.txt
+  - echo "echo 'Hello';" >> build/README.txt
 
 before_script:
-  - curl http://nexteuropa
   - sudo a2enmod rewrite actions alias php5
   # Configure apache virtual hosts
   - cat /etc/apache2/sites-available/000-default.conf
