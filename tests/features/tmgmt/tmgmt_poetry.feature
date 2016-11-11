@@ -251,7 +251,7 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see "translated" in the "French" row
 
-  @javascript
+  @javascript @wip @stuck
   Scenario: Test creation of translation jobs for vocabularies using TMGMT.
     Given I go to "admin/tmgmt/sources/i18n_string_taxonomy_vocabulary"
     And I should see "classification (taxonomy:vocabulary:1)"
