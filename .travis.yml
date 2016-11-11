@@ -54,8 +54,8 @@ before_install:
 
 install:
   # Run composer
-  - composer self-update
-  - composer install
+#  - composer self-update
+#  - composer install
   # Setup Phing
   - cp resources/build.properties.travis build.properties.local
   # Build platform
@@ -70,7 +70,7 @@ before_script:
   # enable php-fpm
   - sudo a2enmod rewrite actions alias
   # Configure apache virtual hosts
-  - echo 127.0.0.1 platform.local >> /etc/hosts
+  - sudo echo 127.0.0.1 platform.local >> /etc/hosts
   - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/default
   - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
   # Run Apache
