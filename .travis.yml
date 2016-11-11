@@ -14,7 +14,7 @@ addons:
       - mysql-client-core-5.6
       - mysql-client-5.6
       - apache2
-      - libapache2-mod-fastcgi
+      - libapache2-mod-php5
 
 git:
   depth: 1
@@ -64,11 +64,7 @@ install:
 
 before_script:
   - curl http://nexteuropa
-  # Enable PHP-FPM
-  - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
-  - sudo a2enmod rewrite actions fastcgi alias
-  - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
-  - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
+  - sudo a2enmod rewrite actions alias php5
   # Configure apache virtual hosts
   - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/000-default.conf
   - sudo sed -i -e "s,PATH,$(pwd),g" /etc/apache2/sites-available/000-default.conf
