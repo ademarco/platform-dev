@@ -61,7 +61,9 @@ install:
   - echo "<?php echo 'Hello';" >> build/index.php
   - touch build/README.txt
   - echo "Hello" >> build/README.txt
-  - sudo chmod -R a+rx build
+  - sudo chmod a+x /home
+  - sudo chmod a+x /home/travis
+  - sudo chmod -R a+x /home/travis/build
 
 before_script:
   - sudo a2enmod rewrite actions alias php5
