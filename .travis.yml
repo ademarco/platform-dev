@@ -41,8 +41,6 @@ mysql:
   encoding: utf8
 
 before_install:
-  - ls /etc/apache2/sites-available
-  - cat /etc/apache2/sites-available/*
 #  - phpenv config-rm xdebug.ini
 #  - phpenv rehash
 #  - phantomjs --version
@@ -54,8 +52,9 @@ install:
 #  # Setup Phing
 #  - cp resources/build.properties.travis build.properties.local
   # Build platform
-  - touch index.php
-  - echo "echo 'Hello';" >> index.php
+  - mkdir build
+  - touch build/index.php
+  - echo "echo 'Hello';" >> build/index.php
 #  - ./bin/phing build-platform-dev
 #  - ./bin/phing install-platform
 #  - ./bin/phing setup-php-codesniffer
@@ -69,10 +68,9 @@ before_script:
   - echo "cgi.fix_pathinfo = 1" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
   - ~/.phpenv/versions/$(phpenv version-name)/sbin/php-fpm
   # configure apache virtual hosts
-  - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/default.conf
-  - sudo sed -i -e "s,PATH,$(pwd),g" /etc/apache2/sites-available/default.conf
-  - cat /etc/apache2/sites-available/default.conf
-  - sudo a2ensite default.conf
+  - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/000-default.conf
+  - sudo sed -i -e "s,PATH,$(pwd),g" /etc/apache2/sites-available/000-default.conf
+  - cat /etc/apache2/sites-available/000-default.conf
   - sudo service apache2 restart
   # Run PhamtomJS
   - phantomjs --webdriver=4444 > /dev/null &
