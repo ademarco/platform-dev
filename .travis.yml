@@ -51,17 +51,6 @@ before_install:
   - export DISPLAY=:99.0
   - if [ $(phantomjs --version) != '2.1.1' ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs && wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 && tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi
   - phantomjs --version
-  # enable php-fpm
-  - sudo a2enmod rewrite actions alias
-  # Configure apache virtual hosts
-  - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/default
-  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
-  # Run Apache
-  - sudo service apache2 restart
-  # Create DB
-  - mysql -u root -e 'create database nexteuropa;'
-  # Run PhamtomJS
-  - phantomjs --webdriver=4444 > /dev/null &
 
 install:
   # Run composer
@@ -74,14 +63,30 @@ install:
 #  - ./bin/phing install-platform
 #  - ./bin/phing setup-php-codesniffer
 #  - ./bin/phing setup-behat
+
+before_script:
+  # enable php-fpm
+  - sudo a2enmod rewrite actions alias
+  # Configure apache virtual hosts
+  - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/default
+  - sudo sed -e "s?%TRAVIS_BUILD_DIR%?$(pwd)?g" --in-place /etc/apache2/sites-available/default
+  # Run Apache
+  - sudo service apache2 restart
+  # Create DB
+  - mysql -u root -e 'create database nexteuropa;'
+  # Run PhamtomJS
+  - phantomjs --webdriver=4444 > /dev/null &
+
+script:
   - curl http://127.0.0.1
   - curl http://127.0.1.1
   - curl http://localhost
+  - curl http://127.0.0.1/README.txt
+  - curl http://127.0.1.1/README.txt
+  - curl http://localhost/README.txt
   - curl http://localhost/user
-
-script:
-  - cd build/tests
-  - ./behat -c ${TEST}
+#  - cd build/tests
+#  - ./behat -c ${TEST}
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
