@@ -53,6 +53,7 @@ install:
 #  - cp resources/build.properties.travis build.properties.local
   # Build platform
   - mkdir build
+  - sudo chmod -R +x build
   - touch build/index.php
   - echo "echo 'Hello';" >> build/index.php
   - touch build/README.txt
@@ -78,6 +79,8 @@ before_script:
 script:
   - curl http://nexteuropa
   - curl http://nexteuropa/README.txt
+  - cat error.log
+  - cat access.log
 #  - cd build/tests
 #  - ./behat -c ${TEST}
 

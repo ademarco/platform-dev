@@ -2,6 +2,9 @@
   ServerName nexteuropa
   DocumentRoot PATH/build
 
+  ErrorLog PATH/error.log
+  CustomLog PATH/access.log combined
+
   <Directory "PATH/build">
     AllowOverride All
     Require all granted
