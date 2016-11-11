@@ -5,10 +5,6 @@ dist: trusty
 services:
  - mysql
 
-cache:
-  directories:
-    - "travis_phantomjs"
-
 addons:
   hosts:
     - nexteuropa
@@ -19,8 +15,8 @@ addons:
       - mysql-server-5.6
       - mysql-client-core-5.6
       - mysql-client-5.6
-#      - apache2
-#      - libapache2-mod-fastcgi
+      - apache2
+      - libapache2-mod-fastcgi
 
 git:
   depth: 1
@@ -30,10 +26,10 @@ php:
 
 env:
   - TEST=behat.0.yml
-#  - TEST=behat.1.yml
-#  - TEST=behat.2.yml
-#  - TEST=behat.3.yml
-#  - TEST=behat.4.yml
+  - TEST=behat.1.yml
+  - TEST=behat.2.yml
+  - TEST=behat.3.yml
+  - TEST=behat.4.yml
 
 matrix:
   fast_finish: true
@@ -49,30 +45,21 @@ mysql:
 before_install:
   - phpenv config-rm xdebug.ini
   - phpenv rehash
-  - export PHANTOMJS_VERSION=2.1.1
-  - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH;
-  - if [ $(phantomjs --version) != '2.1.1' ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs && wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 && tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi
   - phantomjs --version
 
 install:
   # Run composer
-#  - composer self-update
-#  - composer install
+  - composer self-update
+  - composer install
   # Setup Phing
   - cp resources/build.properties.travis build.properties.local
   # Build platform
-  - mkdir build
-  - touch build/README.txt
-#  - ./bin/phing build-platform-dev
-#  - ./bin/phing install-platform
-#  - ./bin/phing setup-php-codesniffer
-#  - ./bin/phing setup-behat
+  - ./bin/phing build-platform-dev
+  - ./bin/phing install-platform
+  - ./bin/phing setup-php-codesniffer
+  - ./bin/phing setup-behat
 
 before_script:
-
-before_script:
-  - sudo apt-get update
-  - sudo apt-get install apache2 libapache2-mod-fastcgi
   # enable php-fpm
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo a2enmod rewrite actions fastcgi alias
@@ -81,22 +68,17 @@ before_script:
   # configure apache virtual hosts
   - sudo cp -f resources/travis-ci-apache /etc/apache2/sites-available/default
   - sudo sed -i -e "s,/var/www,$(pwd)/build,g" /etc/apache2/sites-available/default
-  - echo "127.0.0.1 nexteuropa" | sudo tee -a /etc/hosts
   - cat /etc/apache2/sites-available/default
+  - sudo service apache2 reload
   - sudo service apache2 restart
-  - sleep 5
   # Create DB
   - mysql -u root -e 'create database nexteuropa;'
   # Run PhamtomJS
   - phantomjs --webdriver=4444 > /dev/null &
 
 script:
-  - ls -al /home/travis/build/ademarco/platform-dev/build
-  - sudo cat /etc/apache2/sites-available/default
-  - curl http://nexteuropa/README.txt
-  - curl http://localhost/README.txt
-#  - cd build/tests
-#  - ./behat -c ${TEST}
+  - cd build/tests
+  - ./behat -c ${TEST}
 
 notifications:
   email: true
