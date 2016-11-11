@@ -26,10 +26,10 @@ php:
 
 env:
   - TEST=behat.0.yml
-  - TEST=behat.1.yml
-  - TEST=behat.2.yml
-  - TEST=behat.3.yml
-  - TEST=behat.4.yml
+#  - TEST=behat.1.yml
+#  - TEST=behat.2.yml
+#  - TEST=behat.3.yml
+#  - TEST=behat.4.yml
 
 matrix:
   fast_finish: true
