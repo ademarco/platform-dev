@@ -20,7 +20,7 @@ git:
   depth: 1
 
 php:
-  - '5.6'
+  - 5.6
 
 #env:
 #  - TEST=behat.0.yml
@@ -41,8 +41,8 @@ mysql:
   encoding: utf8
 
 before_install:
-  - ls /etc/apache2/sites/available
-  - cat /etc/apache2/sites/available/*
+  - ls /etc/apache2/sites-available
+  - cat /etc/apache2/sites-available/*
 #  - phpenv config-rm xdebug.ini
 #  - phpenv rehash
 #  - phantomjs --version
