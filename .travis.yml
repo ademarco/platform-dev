@@ -51,13 +51,13 @@ before_install:
   - phantomjs --version
   - composer self-update
   - composer install
-  - ./bin/phing setup-php-codesniffer
-  - ./bin/phing setup-behat
 
 install:
   - mysql -u root -e 'create database nexteuropa;'
   - ./bin/phing build-platform-dev
   - ./bin/phing install-platform
+  - ./bin/phing setup-php-codesniffer
+  - ./bin/phing setup-behat
 
 before_script:
   - ./bin/phing run-local-webserver &> /dev/null &
