@@ -165,7 +165,7 @@ Feature:
       | Path          |
       | /all-articles |
 
-  @non-moderated-content
+  @non-moderated-content @wip @stuck
   Scenario: Publish an existing draft of an editorial team.
     Given the following cache purge rules:
       | Content Type   | Paths to Purge      |

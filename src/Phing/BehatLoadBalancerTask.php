@@ -92,6 +92,11 @@ class BehatLoadBalancerTask extends \Task {
       throw new \InvalidArgumentException("{$this->destination} is not a valid directory.");
     }
 
+    // Remove already existing .yml files.
+    foreach ($this->scanDirectory($this->destination, '/behat.\d+.yml/') as $file) {
+      unlink($file);
+    }
+
     // Generate feature files.
     foreach ($this->getContainers($this->root) as $key => $container) {
       $content = $this->generateBehatYaml($container);
@@ -110,8 +115,15 @@ class BehatLoadBalancerTask extends \Task {
    */
   protected function getContainers($root) {
     $files = $this->scanDirectory($root, '/.feature/');
-    $size = ceil(count($files) / $this->containers);
-    return array_chunk($files, $size);
+    $size = floor(count($files) / $this->containers);
+    $containers = array_chunk($files, $size);
+    if (count($containers) > $this->containers) {
+      $last = $containers[count($containers) - 2];
+      $rest = $containers[count($containers) - 1];
+      $containers[count($containers) - 2] = array_merge($last, $rest);
+      unset($containers[count($containers) - 1]);
+    }
+    return $containers;
   }
 
   /**
