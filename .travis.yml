@@ -61,9 +61,13 @@ install:
   - ./bin/phing setup-behat
 
 before_script:
-  - ./bin/phing run-local-webserver &> /dev/null &
+  # Run Drush web server.
+  - cd build
+  - ../bin/drush --debug runserver :8080 > ~/debug.txt 2>&1 &
+  - sleep 5s
+  - cd -
+  # Run PhamtomJS
   - phantomjs --webdriver=4444 > /dev/null &
-  - sleep 5
 
 script:
   - cd build/tests
