@@ -17,10 +17,10 @@ composer.bin = composer
 # -------------------
 
 # The base URL to use in Behat tests.
-behat.base_url = http://127.0.0.1:8080
+behat.base_url = http://127.0.0.1:9000/build
 
 # Behat\MinkExtension settings.
 behat.extensions.selenium2.port = 4444
 
 # The output format to use for Behat tests, either 'progress' or 'pretty'.
-behat.formatter.name = pretty
+behat.formatter.name = progress
