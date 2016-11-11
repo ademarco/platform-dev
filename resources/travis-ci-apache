@@ -2,7 +2,7 @@
   ServerName localhost
   DocumentRoot %TRAVIS_BUILD_DIR%/build
 
-  <Directory "%TRAVIS_BUILD_DIR%/build">
+  <Directory %TRAVIS_BUILD_DIR%/build>
     Options FollowSymLinks MultiViews
     AllowOverride All
     Order allow,deny
