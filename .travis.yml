@@ -78,6 +78,7 @@ before_script:
   - phantomjs --webdriver=4444 > /dev/null &
 
 script:
+  - sudo cat /etc/apache2/sites-available/default
   - curl http://127.0.0.1
   - curl http://127.0.1.1
   - curl http://localhost
