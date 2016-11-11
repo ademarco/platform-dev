@@ -60,6 +60,7 @@ install:
 #  - ./bin/phing setup-behat
 
 before_script:
+  - curl http://nexteuropa
   # enable php-fpm
   - sudo cp ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf.default ~/.phpenv/versions/$(phpenv version-name)/etc/php-fpm.conf
   - sudo a2enmod rewrite actions fastcgi alias
