@@ -58,10 +58,10 @@ install:
 #  - ./bin/phing setup-behat
   - mkdir build
   - touch build/index.php
-  - echo "echo 'Hello';" >> build/index.php
+  - echo "<?php echo 'Hello';" >> build/index.php
   - touch build/README.txt
-  - echo "echo 'Hello';" >> build/README.txt
-  - sudo chmod -R a+rx /home
+  - echo "Hello" >> build/README.txt
+  - sudo chmod -R a+rx build
 
 before_script:
   - sudo a2enmod rewrite actions alias php5
