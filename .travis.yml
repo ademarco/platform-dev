@@ -57,11 +57,11 @@ install:
 #  - ./bin/phing setup-php-codesniffer
 #  - ./bin/phing setup-behat
   - mkdir build
-  - sudo chmod -R 777 build
   - touch build/index.php
   - echo "echo 'Hello';" >> build/index.php
   - touch build/README.txt
   - echo "echo 'Hello';" >> build/README.txt
+  - sudo chmod -R a+x build
 
 before_script:
   - sudo a2enmod rewrite actions alias php5
