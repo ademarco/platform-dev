@@ -66,21 +66,20 @@ before_install:
   - phantomjs --webdriver=4444 > /dev/null &
 
 install:
+  # Run composer
+  - composer self-update
+  - composer install
+  # Setup Phing
+  - cp resources/build.properties.travis build.properties.local
+  # Build platform
+  - ./bin/phing build-platform-dev
+#  - ./bin/phing install-platform
+#  - ./bin/phing setup-php-codesniffer
+#  - ./bin/phing setup-behat
   - curl http://127.0.0.1
   - curl http://127.0.1.1
   - curl http://localhost
   - curl http://localhost/user
-
-#  # Run composer
-#  - composer self-update
-#  - composer install
-#  # Setup Phing
-#  - cp resources/build.properties.travis build.properties.local
-#  # Build platform
-#  - ./bin/phing build-platform-dev
-#  - ./bin/phing install-platform
-#  - ./bin/phing setup-php-codesniffer
-#  - ./bin/phing setup-behat
 
 script:
   - cd build/tests
