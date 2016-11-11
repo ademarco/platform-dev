@@ -51,9 +51,10 @@ before_install:
   - phantomjs --version
   - composer self-update
   - composer install
+  - cp resources/build.properties.travis build.properties.local
+  - mysql -u root -e 'create database nexteuropa;'
 
 install:
-  - mysql -u root -e 'create database nexteuropa;'
   - ./bin/phing build-platform-dev
   - ./bin/phing install-platform
   - ./bin/phing setup-php-codesniffer
