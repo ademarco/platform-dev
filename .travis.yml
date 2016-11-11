@@ -1,0 +1,79 @@
+language: php
+sudo: required
+dist: trusty
+
+services:
+ - mysql
+
+cache:
+  directories:
+    - "travis_phantomjs"
+
+addons:
+  apt:
+    packages:
+      - mysql-server-5.6
+      - mysql-client-core-5.6
+      - mysql-client-5.6
+
+git:
+  depth: 1
+
+php:
+  - '5.6'
+
+env:
+  - TEST=behat.0.yml
+  - TEST=behat.1.yml
+  - TEST=behat.2.yml
+  - TEST=behat.3.yml
+  - TEST=behat.4.yml
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: 5.5
+    - php: 7.0
+
+mysql:
+  database: nexteuropa
+  username: root
+  encoding: utf8
+
+before_install:
+  - phpenv config-rm xdebug.ini
+  - phpenv rehash
+  - export PHANTOMJS_VERSION=2.1.1
+  - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH;
+  - export no_proxy="localhost,127.0.0.*"
+  - export DISPLAY=:99.0
+  - if [ $(phantomjs --version) != '2.1.1' ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs && wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 && tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi
+  - phantomjs --version
+  - composer self-update
+  - composer install
+  - ./bin/phing setup-php-codesniffer
+  - ./bin/phing setup-behat
+
+install:
+  - mysql -u root -e 'create database nexteuropa;'
+  - ./bin/phing build-platform-dev
+  - ./bin/phing install-platform
+
+before_script:
+  - ./bin/phing run-local-webserver &> /dev/null &
+  - phantomjs --webdriver=4444 > /dev/null &
+  - sleep 5
+
+script:
+  - cd build/tests
+  - ./behat -c ${TEST}
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+notifications:
+  email: true
+  webhooks:
+    on_success: always
+    on_failure: always
+    on_start: always
