@@ -8,8 +8,6 @@ services:
 addons:
   hosts:
     - nexteuropa
-
-addons:
   apt:
     packages:
       - mysql-server-5.6
