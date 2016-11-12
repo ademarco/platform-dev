@@ -24,3 +24,10 @@ behat.extensions.selenium2.port = 4444
 
 # The output format to use for Behat tests, either 'progress' or 'pretty'.
 behat.formatter.name = pretty
+
+# Flickr configuration
+# --------------------
+
+# A valid API key & secret used by the behat tests
+flickr.key = 0c2dbbccfa0979a5b3a446a969a6fe35
+flickr.secret = 211cbf067e23fb47

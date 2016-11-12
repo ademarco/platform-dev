@@ -35,6 +35,7 @@ mysql:
 before_install:
   - phpenv config-rm xdebug.ini
   - phpenv rehash
+  - export DISPLAY=:99.0
 
 install:
   # Setup Phing
