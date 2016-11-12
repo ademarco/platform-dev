@@ -37,9 +37,6 @@ before_install:
   - phpenv rehash
 
 install:
-  - ls -al /home/travis/.phpenv/versions
-  - ls -al /home/travis/.phpenv/versions/5.6.27
-  - ls -al /home/travis/.phpenv/versions/5.6.27/bin
   # Setup Phing
   - cp resources/travis/build.properties.dist build.properties.local
   # Install and setup Apache + FastCGI
