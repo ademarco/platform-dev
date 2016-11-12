@@ -46,13 +46,11 @@ install:
   - composer install
   # Setup Phing
   - cp resources/travis/build.properties.local .
-  # Build platform
-  - ./bin/phing build-platform-dev
-  - ./bin/phing install-platform
-  - ./bin/phing setup-php-codesniffer
-  - ./bin/phing setup-behat
+  # Build and install platform
+  - ./bin/phing build-platform-dev setup-behat-load-balancer install-platform
 
 before_script:
+  # Restart Apache2
   - sudo service apache2 restart
   # Run PhamtomJS
   - phantomjs --version
