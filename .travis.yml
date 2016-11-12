@@ -32,6 +32,10 @@ mysql:
   username: root
   encoding: utf8
 
+cache:
+  directories:
+    - travis_phantomjs
+
 before_install:
   - phpenv config-rm xdebug.ini
   - phpenv rehash
