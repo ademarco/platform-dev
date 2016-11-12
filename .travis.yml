@@ -57,7 +57,7 @@ install:
 #  - ./bin/phing setup-behat
   - mkdir build
   - touch build/index.php
-  - echo "<?php echo 'Hello';" >> build/index.php
+  - echo "<?php phpinfo();" >> build/index.php
   - touch build/README.txt
   - echo "Hello" >> build/README.txt
 #  - sudo chmod a+x /home
