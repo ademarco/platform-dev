@@ -1,6 +1,8 @@
 <VirtualHost *:80>
   ServerName nexteuropa
   DocumentRoot PATH/build
+  ErrorLog PATH/error.log
+  CustomLog PATH/access.log common
 
   <Directory "PATH/build">
     Options FollowSymLinks MultiViews ExecCGI
