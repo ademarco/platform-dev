@@ -8,13 +8,13 @@ services:
 addons:
   hosts:
     - nexteuropa
-  apt:
-    packages:
-      - mysql-server-5.6
-      - mysql-client-core-5.6
-      - mysql-client-5.6
-      - apache2
-      - libapache2-mod-php5
+#  apt:
+#    packages:
+#      - mysql-server-5.6
+#      - mysql-client-core-5.6
+#      - mysql-client-5.6
+#      - apache2
+#      - libapache2-mod-php5
 
 git:
   depth: 1
@@ -41,11 +41,14 @@ mysql:
   encoding: utf8
 
 before_install:
+  - sudo add-apt-repository ppa:ondrej/php5-5.6
+  - sudo apt-get update -qq
 #  - phpenv config-rm xdebug.ini
 #  - phpenv rehash
 #  - phantomjs --version
 
 install:
+  - sudo apt-get install apache2 libapache2-mod-php5 mysql-server-5.6 mysql-client-core-5.6 mysql-client-5.6
 #  # Run composer
 #  - composer self-update
 #  - composer install
