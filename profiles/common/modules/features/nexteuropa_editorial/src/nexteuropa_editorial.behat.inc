@@ -8,6 +8,7 @@
 use Drupal\DrupalDriverManager;
 use Drupal\DrupalExtension\Context\DrupalSubContextInterface;
 use Drupal\DrupalExtension\Context\RawDrupalContext;
+use Behat\Behat\Hook\Scope\BeforeScenarioScope;
 
 /**
  * Behat step definitions for the NextEuropa Editorial module.
@@ -20,6 +21,13 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
    * @var \Drupal\DrupalDriverManager;
    */
   protected $drupal;
+
+  /**
+   * Initialized contexts.
+   *
+   * @var Behat\Behat\Context\Context[];
+   */
+  protected $contexts;
 
   /**
    * Constructs a NextEuropaEditorialSubContext object.
@@ -135,15 +143,27 @@ class NextEuropaEditorialSubContext extends RawDrupalContext implements DrupalSu
    *   The requested context, or FALSE if the context is not registered.
    */
   protected function getContext($class) {
-    /** @var \Behat\Behat\Context\Environment\InitializedContextEnvironment $environment */
-    $environment = $this->drupal->getEnvironment();
-    foreach ($environment->getContexts() as $context) {
+    foreach ($this->contexts as $context) {
       if ($context instanceof $class) {
         return $context;
       }
     }
 
     return FALSE;
+  }
+
+  /**
+   * Gather initialized contexts.
+   *
+   * @param \Behat\Behat\Hook\Scope\BeforeScenarioScope $scope
+   *    Scope object.
+   *
+   * @BeforeScenario
+   */
+  public function gatherContexts(BeforeScenarioScope $scope) {
+    /** @var \Behat\Behat\Context\Environment\InitializedContextEnvironment $environment */
+    $environment = $scope->getEnvironment();
+    $this->contexts = $environment->getContexts();
   }
 
 }
