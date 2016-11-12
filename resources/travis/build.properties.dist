@@ -11,7 +11,7 @@ drupal.db.password =
 # -----
 
 # Paths to executables.
-composer.bin = composer
+composer.bin = /home/travis/.phpenv/versions/$(phpenv version-name)/bin/composer.phar
 
 # Behat configuration
 # -------------------

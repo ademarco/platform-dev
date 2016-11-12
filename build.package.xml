@@ -113,12 +113,17 @@
 
     <!-- Install Composer dependencies. -->
     <target name="install-platform-dependencies">
-        <exec command="${composer.bin} install --working-dir=${platform.build.dir} --no-dev" escape="false" />
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${platform.build.dir}" />
+            <arg value="--no-dev" />
+        </composer>
     </target>
 
     <!-- Install Composer dependencies, including optional development dependencies. -->
     <target name="install-platform-dev-dependencies">
-        <exec command="${composer.bin} install --working-dir=${platform.build.dir}" escape="false" />
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${platform.build.dir}" />
+        </composer>
     </target>
 
     <!-- Link site document root to Webserver document root. -->
@@ -138,9 +143,9 @@
         </if>
     </target>
 
-	<!-- Setup file directory -->
+    <!-- Setup file directory -->
     <target name="setup-files-directory">
-		 <if>
+        <if>
             <istrue value="${platform.build.files.dir}" />
             <then>
                 <mkdir dir="${platform.build.files.dir}/private_files" />
@@ -150,7 +155,9 @@
 
     <!-- Install Composer dependencies for the build system. -->
     <target name="install-build-dependencies">
-        <exec command="${composer.bin} install --working-dir=${project.basedir}" escape="false" />
+        <composer command="install" composer="${composer.bin}">
+            <arg value="--working-dir=${project.basedir}" />
+        </composer>
     </target>
 
     <target

@@ -20,7 +20,7 @@
             <param>install_configure_form.update_status_module='array(FALSE,FALSE)'</param>
         </drush>
 
-		<!-- Rebuild node access after site installation -->
+        <!-- Rebuild node access after site installation -->
         <phingcall target="rebuild-node-access" />
     </target>
 
@@ -94,9 +94,9 @@
     <!-- Run Behat tests. -->
     <target name="behat" description="Run Behat tests.">
         <foreach param="filename" absparam="config" target="behat-suite">
-          <fileset dir="${behat.dir}">
-            <include name="*.yml"/>
-          </fileset>
+            <fileset dir="${behat.dir}">
+                <include name="*.yml"/>
+            </fileset>
         </foreach>
     </target>
 
