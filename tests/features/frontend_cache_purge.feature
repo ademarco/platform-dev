@@ -165,7 +165,7 @@ Feature:
       | Path          |
       | /all-articles |
 
-  @non-moderated-content @wip @stuck
+  @non-moderated-content
   Scenario: Publish an existing draft of an editorial team.
     Given the following cache purge rules:
       | Content Type   | Paths to Purge      |
@@ -185,7 +185,7 @@ Feature:
       | Path          |
       | /all-articles |
 
-  @non-moderated-content @wip @stuck
+  @non-moderated-content
   Scenario: Edit an existing draft of an editorial team.
     Given I go to "node/add/editorial-team"
     And I fill in "Name" with "NextEuropa Platform Core"

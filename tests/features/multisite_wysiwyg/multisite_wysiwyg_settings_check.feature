@@ -1,4 +1,4 @@
-@api @wysiwyg
+@api
 Feature: Testing settings options for the Multisite WYSIWYG module.
   In order to check if settings for Multisite WYSIWYG are working correctly
   As an administrator
@@ -18,7 +18,7 @@ Feature: Testing settings options for the Multisite WYSIWYG module.
     And I press "Submit"
     Then I should see "Disabled" in the "Full HTML" row
 
-  @javascript @wip @stuck
+  @javascript
   Scenario: Checking if WYSIWYG options are applied to CKeditor
     When I go to "admin/config/content/multisite_wysiwyg/setup"
     And I select "Enable change tracking" from "Select operation"

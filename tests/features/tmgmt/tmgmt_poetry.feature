@@ -34,7 +34,7 @@ Feature: TMGMT Poetry features
     And the translation request has the codeDemandeur "ABCD"
     And the translation request has the sequence "NEXT_EUROPA_COUNTER"
 
-  @javascript @wip @stuck
+  @javascript
   Scenario: Create a request translation for Portuguese
     Given I am viewing a multilingual "page" content:
       | language | title                                           |
@@ -251,7 +251,7 @@ Feature: TMGMT Poetry features
     And I press "Save as completed"
     Then I should see "translated" in the "French" row
 
-  @javascript @wip @stuck
+  @javascript
   Scenario: Test creation of translation jobs for vocabularies using TMGMT.
     Given I go to "admin/tmgmt/sources/i18n_string_taxonomy_vocabulary"
     And I should see "classification (taxonomy:vocabulary:1)"
