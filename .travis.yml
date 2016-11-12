@@ -44,10 +44,12 @@ install:
   # Run composer
   - composer self-update
   - composer install
-  # Setup Phing
-  - cp resources/travis/build.properties.local .
   # Build and install platform
   - ./bin/phing build-platform-dev setup-behat-load-balancer install-platform
+  # Setup Phing
+  - pwd
+  - ls -al resources/travis
+  - cp resources/travis/build.properties.local build.properties.local
 
 before_script:
   # Restart Apache2
