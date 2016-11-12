@@ -57,6 +57,7 @@ before_script:
   - phantomjs --webdriver=4444 > /dev/null &
 
 script:
+  - ./bin/phpcs
   - cd build/tests
   - cat ${TEST}
   - ./behat -c ${TEST}
