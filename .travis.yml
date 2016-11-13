@@ -15,9 +15,11 @@ php:
   - 5.6
 
 env:
-  - TEST=behat.0.yml
-  - TEST=behat.1.yml
-  - TEST=behat.2.yml
+#  - TEST=behat.0.yml
+#  - TEST=behat.1.yml
+#  - TEST=behat.2.yml
+#  - TEST=behat.3.yml
+  - TEST=behat.4.yml
 
 matrix:
   fast_finish: true
@@ -62,6 +64,7 @@ before_script:
   - sudo service apache2 restart
   # Run PhamtomJS
   - phantomjs --webdriver=4444 > /dev/null &
+  - export USE_ZEND_ALLOC=0
 
 script:
 #  - ./bin/phpcs
