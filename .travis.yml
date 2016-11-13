@@ -34,7 +34,11 @@ mysql:
 
 cache:
   directories:
-    - travis_phantomjs
+    - $HOME/.cache/composer
+    - $HOME/.drush/cache
+    - $HOME/.composer/cache
+    - $HOME/build/platform-dev/vendor
+    - $HOME/bin
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -42,11 +46,7 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - export no_proxy='localhost,nexteuropa,127.0.0.*'
-  - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
-  - if [ $(phantomjs --version) != '2.1.1' ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi
-  - if [ $(phantomjs --version) != '2.1.1' ]; then wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2; fi
-  - if [ $(phantomjs --version) != '2.1.1' ]; then tar -xvf $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2 -C $PWD/travis_phantomjs; fi
-  - phantomjs --version
+  - bin/phantomjs --version
 
 install:
   # Setup Phing
@@ -67,7 +67,7 @@ before_script:
   # Restart Apache2
   - sudo service apache2 restart
   # Run PhamtomJS
-  - phantomjs --webdriver=4444 > /dev/null &
+  - bin/phantomjs --webdriver=4444 > /dev/null &
 
 script:
 #  - ./bin/phpcs
