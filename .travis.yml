@@ -46,7 +46,6 @@ before_install:
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
   - export no_proxy='localhost,nexteuropa,127.0.0.*'
-  - bin/phantomjs --version
 
 install:
   # Setup Phing
@@ -67,6 +66,7 @@ before_script:
   # Restart Apache2
   - sudo service apache2 restart
   # Run PhamtomJS
+  - bin/phantomjs --version
   - bin/phantomjs --webdriver=4444 > /dev/null &
 
 script:
