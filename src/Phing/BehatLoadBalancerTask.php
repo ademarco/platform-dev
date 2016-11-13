@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Contains \NextEuropa\Phing\BehatLoadBalancerTask.
+ * Class BehatLoadBalancerTask.
  */
 
 namespace NextEuropa\Phing;
@@ -94,14 +94,39 @@ class BehatLoadBalancerTask extends \Task {
 
     // Remove already existing .yml files.
     foreach ($this->scanDirectory($this->destination, '/behat.\d+.yml/') as $file) {
-      unlink($file);
+      unlink($file['uri']);
     }
 
     // Generate feature files.
     foreach ($this->getContainers($this->root) as $key => $container) {
-      $content = $this->generateBehatYaml($container);
+      $content = $this->generateBehatYaml($container['features']);
       file_put_contents($this->destination . "/behat.{$key}.yml", $content);
     }
+  }
+
+  /**
+   * Get the minimum set.
+   *
+   * The size of a feature is its filesize. This has to be changed later.
+   *
+   * @param array $sets
+   *   The sets.
+   *
+   * @return int|string
+   *   The key of the smallest set in the sets parameters.
+   */
+  private function getMin(array $sets = array()) {
+    $min = NULL;
+    $min_key = 0;
+
+    foreach ($sets as $key => $set) {
+      if ($set['size'] < $min || $min == NULL && $set['size'] != 0) {
+        $min = $set['size'];
+        $min_key = $key;
+      }
+    }
+
+    return $min_key;
   }
 
   /**
@@ -115,15 +140,22 @@ class BehatLoadBalancerTask extends \Task {
    */
   protected function getContainers($root) {
     $files = $this->scanDirectory($root, '/.feature/');
-    $size = floor(count($files) / $this->containers);
-    $containers = array_chunk($files, $size);
-    if (count($containers) > $this->containers) {
-      $last = $containers[count($containers) - 2];
-      $rest = $containers[count($containers) - 1];
-      $containers[count($containers) - 2] = array_merge($last, $rest);
-      unset($containers[count($containers) - 1]);
+
+    $sets = [];
+    for ($i = 0; $i < $this->containers; $i++) {
+      $sets[] = array(
+        'size' => 0,
+        'features' => array(),
+      );
     }
-    return $containers;
+
+    foreach ($files as $index => $file) {
+      $min_set_key = $this->getMin($sets);
+      $sets[$min_set_key]['size'] += $file['size'];
+      $sets[$min_set_key]['features'][] = $file['uri'];
+    }
+
+    return $sets;
   }
 
   /**
@@ -148,7 +180,10 @@ class BehatLoadBalancerTask extends \Task {
             $files = array_merge($this->scanDirectory($uri, $mask), $files);
           }
           elseif ($depth >= 0 && preg_match($mask, $filename)) {
-            $files[] = $uri;
+            $files[] = array(
+              'uri' => $uri,
+              'size' => filesize($uri),
+            );
           }
         }
       }
