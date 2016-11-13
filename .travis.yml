@@ -49,8 +49,8 @@ install:
   # Setup Phing
   - cp resources/travis/build.properties.dist build.properties.local
   # Install and setup Apache + FastCGI
-  - apt-cache policy phantomjs
   - sudo apt-get update > /dev/null
+  - apt-cache policy phantomjs
   - sudo apt-get install apache2 libapache2-mod-fastcgi phantomjs
   - phantomjs --version
   - ./resources/travis/setup-apache.sh
