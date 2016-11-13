@@ -40,6 +40,8 @@ before_install:
   - phpenv config-rm xdebug.ini
   - phpenv rehash
   - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - export no_proxy='localhost,nexteuropa,127.0.0.*'
   - export PATH=$PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64/bin:$PATH
   - if [ $(phantomjs --version) != '2.1.1' ]; then rm -rf $PWD/travis_phantomjs; mkdir -p $PWD/travis_phantomjs; fi
   - if [ $(phantomjs --version) != '2.1.1' ]; then wget https://assets.membergetmember.co/software/phantomjs-2.1.1-linux-x86_64.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.1.1-linux-x86_64.tar.bz2; fi
