@@ -40,9 +40,9 @@ before_install:
   - phpenv config-rm xdebug.ini
   - phpenv rehash
   - export DISPLAY=:99.0
-  - wget https://s3.amazonaws.com/travis_phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
-  - tar -xvf $PWD/travis_phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis_phantomjs
-  - export PATH=$PWD/travis_phantomjs:$PATH
+#  - wget https://s3.amazonaws.com/travis_phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis_phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
+#  - tar -xvf $PWD/travis_phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis_phantomjs
+#  - export PATH=$PWD/travis_phantomjs:$PATH
   - phantomjs --version
 
 install:
