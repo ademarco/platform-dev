@@ -1,5 +1,7 @@
 language: php
 sudo: required
+dist: trusty
+group: edge
 
 services:
  - mysql
@@ -50,8 +52,7 @@ install:
   - cp resources/travis/build.properties.dist build.properties.local
   # Install and setup Apache + FastCGI
   - sudo apt-get update > /dev/null
-  - apt-cache policy phantomjs
-  - sudo apt-get install apache2 libapache2-mod-fastcgi phantomjs
+  - sudo apt-get install apache2 libapache2-mod-fastcgi
   - phantomjs --version
   - ./resources/travis/setup-apache.sh
   # Run composer
