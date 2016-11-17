@@ -1,3 +1,6 @@
+group: stable
+dist: precise
+os: linux
 language: php
 sudo: required
 
