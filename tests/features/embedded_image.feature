@@ -1,4 +1,4 @@
-@api @javascript @wip @wip:travis
+@api @javascript
 Feature: Embedded images
   In order to make my website more attractive
   As a contributor
