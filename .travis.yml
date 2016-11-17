@@ -19,10 +19,10 @@ php:
 
 env:
 #  - TEST=behat.yml
-  - TEST=behat.0.yml
-  - TEST=behat.1.yml
-  - TEST=behat.2.yml
-  - TEST=behat.3.yml
+#  - TEST=behat.0.yml
+#  - TEST=behat.1.yml
+#  - TEST=behat.2.yml
+#  - TEST=behat.3.yml
   - TEST=behat.4.yml
 
 matrix:
@@ -84,6 +84,7 @@ script:
 after_failure:
   - cat error.log
   - cat access.log
+  - cat /tmp/*.dmp
 
 notifications:
   email: true
