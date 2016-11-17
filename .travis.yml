@@ -1,0 +1,93 @@
+group: stable
+dist: precise
+os: linux
+language: php
+sudo: required
+
+services:
+ - mysql
+
+addons:
+  hosts:
+    - nexteuropa
+
+git:
+  depth: 1
+
+php:
+  - 5.6
+
+env:
+  - TEST=behat.0.yml
+  - TEST=behat.1.yml
+  - TEST=behat.2.yml
+  - TEST=behat.3.yml
+  - TEST=behat.4.yml
+
+matrix:
+  fast_finish: true
+  allow_failures:
+    - php: 5.5
+    - php: 7.0
+
+mysql:
+  database: nexteuropa
+  username: root
+  encoding: utf8
+
+cache:
+  directories:
+    - $HOME/.cache/composer
+    - $HOME/.drush/cache
+    - $HOME/.composer/cache
+    - $HOME/build/platform-dev/vendor
+    - $HOME/bin
+
+before_install:
+  - phpenv config-rm xdebug.ini
+  - phpenv rehash
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - export no_proxy='localhost,nexteuropa,127.0.0.*'
+  - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
+  - tar -xjf phantomjs-2.0.0-ubuntu-12.04.tar.bz2
+
+install:
+  # Setup Phing
+  - cp resources/travis/build.properties.dist build.properties.local
+  # Install and setup Apache + FastCGI
+  - sudo apt-get update > /dev/null
+  - sudo apt-get install apache2 libapache2-mod-fastcgi
+  - ./resources/travis/setup-apache.sh
+  # Run composer
+  - composer self-update
+  - composer install
+  # Build and install platform
+  - ./bin/phing build-platform-dev setup-behat-load-balancer install-platform
+
+before_script:
+  - export USE_ZEND_ALLOC=0
+  - echo 'opcache.fast_shutdown=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+  # Restart Apache2
+  - sudo service apache2 restart
+  # Run PhamtomJS
+  - ./phantomjs --version
+  - ./phantomjs --webdriver=4444 > /dev/null &
+
+script:
+#  - ./bin/phpcs
+  - cd build/tests
+  - cat ${TEST}
+  - ./behat -c ${TEST}
+
+after_failure:
+  - cat error.log
+  - cat access.log
+  - cat /tmp/*.dmp
+
+notifications:
+  email: true
+  webhooks:
+    on_success: always
+    on_failure: always
+    on_start: always
