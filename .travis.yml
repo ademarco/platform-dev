@@ -65,7 +65,7 @@ install:
   - ./bin/phing build-platform-dev setup-behat-load-balancer install-platform
 
 before_script:
-#  - export USE_ZEND_ALLOC=0
+  - export USE_ZEND_ALLOC=0
   - echo 'opcache.fast_shutdown=1' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
   # Restart Apache2
   - sudo service apache2 restart
