@@ -70,8 +70,10 @@ before_script:
   # Restart Apache2
   - sudo service apache2 restart
   # Run PhamtomJS
-  - bin/phantomjs --version
-  - bin/phantomjs --webdriver=4444 > /dev/null &
+#  - bin/phantomjs --version
+#  - bin/phantomjs --webdriver=4444 > /dev/null &
+  - phantomjs --version
+  - phantomjs --webdriver=4444 > /dev/null &
 
 script:
 #  - ./bin/phpcs
